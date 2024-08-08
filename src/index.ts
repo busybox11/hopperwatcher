@@ -6,9 +6,13 @@ import {
 } from "discord.js";
 
 import config from "@/config";
+
 import { loadCommands } from "@/loaders/commands";
 import { loadEvents } from "@/loaders/events";
+
 import type { Command } from "@/types";
+
+import { updateLocalBanList } from "@/utils/banlist";
 
 export const client = new Client({
   intents: [
@@ -18,6 +22,9 @@ export const client = new Client({
     GatewayIntentBits.GuildMembers,
   ],
 });
+
+console.log("[INIT] Updating local banlist...");
+await updateLocalBanList();
 
 console.log("[INIT] Loading commands...");
 export const clientCommands: Collection<
