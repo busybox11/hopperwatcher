@@ -1,8 +1,7 @@
 services:
   bot:
-    image: oven/bun:latest
-    working_dir: /app
-    volumes:
-      - .:/app
-    command: bun run start
+    build: .
     restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
