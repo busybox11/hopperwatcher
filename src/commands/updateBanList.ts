@@ -1,6 +1,7 @@
 import type { Command } from "@/types";
 import { getLocalBanList, updateLocalBanList } from "@/utils/banlist";
 import {
+  PermissionFlagsBits,
   SlashCommandBuilder,
   type ChatInputCommandInteraction,
 } from "discord.js";
@@ -10,7 +11,8 @@ const updateBanListCmd: Command<ChatInputCommandInteraction> = {
     .setName("updatebanlist")
     .setDescription(
       "Update the bot ban list from the specified banlist file URL"
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
     await interaction.deferReply();
