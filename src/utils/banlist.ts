@@ -9,12 +9,17 @@ const BANLIST_PATH = os.tmpdir() + "/HopperWatcher/";
 const BANLIST_FILE = "banlist.txt";
 
 async function fetchBanList() {
-  console.log(`[BANLIST] Fetching from ${config.BANLIST_URL}`);
+  let allBanLists = [];
 
-  const response = await fetch(config.BANLIST_URL);
-  const text = await response.text();
+  for (const url of config.BANLIST_URLS.split(",")) {
+    console.log(`[BANLIST] Fetching from ${url}`);
 
-  return text;
+    const response = await fetch(url);
+    const text = await response.text();
+    allBanLists.push(text);
+  }
+
+  return allBanLists.join("\n");
 }
 
 export async function updateLocalBanList() {
