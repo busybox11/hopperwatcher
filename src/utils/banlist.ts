@@ -31,11 +31,16 @@ export async function updateLocalBanList() {
 export async function getLocalBanList() {
   console.log(`[BANLIST] Loading from ${BANLIST_PATH + BANLIST_FILE}`);
 
-  const banListFile = Bun.file(BANLIST_PATH + BANLIST_FILE);
+  try {
+    const banListFile = Bun.file(BANLIST_PATH + BANLIST_FILE);
 
-  const rawList = await banListFile.text();
+    const rawList = await banListFile.text();
 
-  return rawList
-    .split("\n")
-    .map((line) => line.trim().replaceAll(/[^0-9]/g, ""));
+    return rawList
+      .split("\n")
+      .map((line) => line.trim().replaceAll(/[^0-9]/g, ""));
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 }

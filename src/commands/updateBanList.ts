@@ -13,12 +13,20 @@ const updateBanListCmd: Command<ChatInputCommandInteraction> = {
     ),
 
   async execute(interaction) {
-    await interaction.reply("Updating ban list...");
+    await interaction.deferReply();
+
+    const oldBanList = await getLocalBanList();
 
     await updateLocalBanList();
     const banList = await getLocalBanList();
 
-    await interaction.reply(`Updated ban list with ${banList.length} entries`);
+    const diff = banList.filter((entry) => !oldBanList.includes(entry));
+    const diffStr =
+      diff.length > 0 ? `Added ${diff.length} entries.` : "No new entries.";
+
+    await interaction.followUp(
+      `Updated ban list with ${banList.length} entries.\n\n${diffStr}`
+    );
   },
 };
 
