@@ -12,6 +12,13 @@ const readyEvent: Event<Events.ClientReady> = {
     const banlist = await getLocalBanList();
     console.log(`[READY] Loaded ${banlist.length} IDs from banlist`);
 
+    // Update banlist every day
+    setInterval(async () => {
+      console.log("[CRON] Automated banlist update triggered");
+      await getLocalBanList();
+      console.log("[CRON] Automated banlist successful");
+    }, 86400000);
+
     // DEBUG: Trigger guild member add event for testing
     // client.once(Events.MessageCreate, (message) => {
     //   if (!message.member) return;
